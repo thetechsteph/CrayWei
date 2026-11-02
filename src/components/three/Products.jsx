@@ -7,25 +7,25 @@ import { canvasTex, mulberry, radialTex } from '../../lib/procedural';
 import { PRODUCTS } from '../../data/products';
 
 /**
- * ⚠ PLACEHOLDER PACKS. These shapes and labels are stand-ins, NOT packaging designs: each carries a "PLACEHOLDER PACK" label.
- * Replace <Pouch/> <Jar/> <Tin/> with real pack models (or swap this whole row for photographed packs) when they exist.
- * The heaps in front of each pack are placeholder textures of the product category (whole pieces / crumb / fine powder).
+ * The three packs (pouch, jar, tin) are simple procedural models labelled from data/products.js. The heaps in front of each show the
+ * product itself: whole pieces, crumb and fine powder.
  */
 export const SHELF_X = [-4.4, 0, 4.4];
 const TAU = Math.PI * 2, ease = (t) => t * t * (3 - 2 * t);
 
-function labelTexture(title) {
+function labelTexture(prod) {
   const c = document.createElement('canvas'); c.width = 512; c.height = 640;
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
   const draw = () => {
     const g = c.getContext('2d');
     g.fillStyle = '#FFF6E5'; g.fillRect(0, 0, 512, 640);
-    g.fillStyle = '#174A3A'; g.fillRect(0, 0, 512, 64); g.fillStyle = '#E9A83B'; g.fillRect(0, 64, 512, 6);
-    g.textAlign = 'center'; g.fillStyle = '#D95F32'; g.font = '700 30px "DM Sans", Arial, sans-serif'; g.fillText('PLACEHOLDER PACK', 256, 140);
-    g.fillStyle = '#174A3A'; g.font = 'italic 700 62px Fraunces, Georgia, serif';
-    const words = title.split(' '), lines = words.length > 2 ? [words.slice(0, 2).join(' '), words.slice(2).join(' ')] : [title];
-    lines.forEach((l, i) => g.fillText(l, 256, 290 + i * 74));
-    g.fillStyle = 'rgba(43,33,28,.65)'; g.font = '500 26px "DM Sans", Arial, sans-serif'; g.fillText('Product details to follow', 256, 560);
+    g.fillStyle = '#174A3A'; g.fillRect(0, 0, 512, 110); g.fillStyle = '#E9A83B'; g.fillRect(0, 110, 512, 6);
+    g.textAlign = 'center'; g.fillStyle = '#FFF6E5'; g.font = 'italic 700 54px Fraunces, Georgia, serif'; g.fillText('Cray Wei', 256, 76);
+    g.fillStyle = '#174A3A'; g.font = 'italic 700 64px Fraunces, Georgia, serif';
+    const words = prod.name.split(' '), lines = words.length > 2 ? [words.slice(0, 2).join(' '), words.slice(2).join(' ')] : [prod.name];
+    lines.forEach((l, i) => g.fillText(l, 256, 270 + i * 76));
+    g.fillStyle = '#D95F32'; g.font = '700 34px "DM Sans", Arial, sans-serif'; g.fillText((prod.size || '').toUpperCase(), 256, 520);
+    g.fillStyle = 'rgba(43,33,28,.6)'; g.font = '500 24px "DM Sans", Arial, sans-serif'; g.fillText('Crayfish for Nigerian kitchens', 256, 580);
     tex.needsUpdate = true;
   };
   draw(); document.fonts?.ready.then(draw);
@@ -99,7 +99,7 @@ function Heap({ fine }) {
 /** The row of placeholder products. Each rises onto the table in turn as the camera comes down (heroState.shelf). */
 export function ProductRow({ full }) {
   const root = useRef(), items = useRef([]);
-  const tex = useMemo(() => PRODUCTS.map((p) => labelTexture(p.name)), []);
+  const tex = useMemo(() => PRODUCTS.map((p) => labelTexture(p)), []);
   const blob = useMemo(() => radialTex('rgba(40,28,12,.5)', 'rgba(40,28,12,0)', 0.3), []);
 
   useFrame(({ clock }) => {

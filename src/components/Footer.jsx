@@ -2,19 +2,18 @@ import { BRAND } from '../data/brand';
 import { UNITS } from '../lib/journeyConfig';
 import { jump } from '../lib/nav';
 
-const TBP = 'To be provided';
 const year = new Date().getFullYear();
 
 function Contact({ label, value, href }) {
   return (
     <li>
       <span className="foot-k">{label}</span>
-      {value ? (href ? <a href={href} className="foot-link">{value}</a> : <span>{value}</span>) : <span className="text-shell/60">{TBP}</span>}
+      {href ? <a href={href} className="foot-link">{value}</a> : <span>{value}</span>}
     </li>
   );
 }
 
-/** Footer: normal page content after the pinned journey. Shop and Our story are real links; contact and social details are placeholders. */
+/** Footer: normal page content after the pinned journey. Details come from data/brand.js. */
 export default function Footer() {
   const { contact, social } = BRAND;
   return (
@@ -35,22 +34,22 @@ export default function Footer() {
         </nav>
 
         <div id="contact" className="scroll-mt-24">
-          <h2 className="foot-h">Contact <span className="ph-inline">Placeholder</span></h2>
+          <h2 className="foot-h">Contact</h2>
           <ul className="mt-4 space-y-3">
-            <Contact label="Email" value={contact.email} href={contact.email && `mailto:${contact.email}`} />
-            <Contact label="Phone" value={contact.phone} href={contact.phone && `tel:${contact.phone.replace(/\s/g, '')}`} />
-            <Contact label="Location" value={contact.location} />
+            {contact.email && <Contact label="Email" value={contact.email} href={`mailto:${contact.email}`} />}
+            {contact.phone && <Contact label="Phone" value={contact.phone} href={`tel:${contact.phone.replace(/\s/g, '')}`} />}
+            {contact.location && <Contact label="Location" value={contact.location} />}
           </ul>
         </div>
 
         <div>
-          <h2 className="foot-h">Follow <span className="ph-inline">Placeholder</span></h2>
+          <h2 className="foot-h">Follow</h2>
           <ul className="mt-4 space-y-3">
             {social.map((s) => (
               <li key={s.name}>
                 {s.url
                   ? <a href={s.url} target="_blank" rel="noopener noreferrer" className="foot-link">{s.name}<span className="sr-only"> (opens in a new tab)</span></a>
-                  : <span className="text-shell/60">{s.name} <small className="text-[.7rem] tracking-wide">(link to be added)</small></span>}
+                  : <span className="text-shell/60">{s.name}</span>}
               </li>
             ))}
           </ul>

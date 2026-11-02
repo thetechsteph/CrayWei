@@ -3,7 +3,7 @@ import { CRAYFISH_IMAGE, DISHES } from '../data/dishes';
 import { makePlaceholder } from '../lib/placeholderFood';
 import { Headline } from './Discovery';
 
-// Scene 03 · The Ingredient — a food editorial. Copy is as supplied; no claims are added.
+// Scene 03 · The Ingredient — a food editorial.
 export const INGREDIENT = {
   label: '03 / 05 — The Ingredient',
   plain: 'A little ingredient. A lot of flavour.',
@@ -28,8 +28,8 @@ export function useImages() {
     return out;
   }, []);
 }
-export const altOf = (d, ph) => (ph ? `${d.alt} (placeholder image)` : d.alt);
-export const Tag = ({ d }) => <span className="ph-tag">Placeholder · {d.file}</span>;
+export const altOf = (d) => d.alt;
+export const Tag = () => null; // photo credit/labels can go here later
 
 function Frame({ id, n, img }) {
   const d = DISHES[id], im = img[id];
@@ -69,7 +69,6 @@ function Connect({ img }) {
           </div>
         );
       })}
-      <p className="cn-note">Placeholder images — replace with licensed photography</p>
     </div>
   );
 }

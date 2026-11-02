@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { BRAND } from '../../data/brand';
 import { PRODUCTS, TBC, formatPrice } from '../../data/products';
 import { selectCount, subtotal, useCart } from '../../store/cart';
 
@@ -9,6 +10,8 @@ export default function CartDrawer() {
   const panel = useRef(), closeBtn = useRef(), opener = useRef(null);
   const lines = PRODUCTS.filter((p) => items[p.id] > 0);
   const sub = subtotal(items);
+  const orderBody = lines.map((p) => `${items[p.id]} × ${p.name} (${p.size})${p.price == null ? '' : ` — ${formatPrice(p.price * items[p.id])}`}`).join('\n') + (sub == null ? '' : `\n\nTotal: ${formatPrice(sub)}`) + '\n\nName:\nDelivery address:\n';
+  const orderHref = BRAND.contact.email ? `mailto:${BRAND.contact.email}?subject=${encodeURIComponent('Cray Wei order')}&body=${encodeURIComponent(orderBody)}` : undefined;
 
   useEffect(() => {
     if (!open) return;
@@ -48,9 +51,9 @@ export default function CartDrawer() {
                 <li key={p.id} className="py-5">
                   <div className="flex items-baseline justify-between gap-4">
                     <p className="font-display text-lg text-forest">{p.name}</p>
-                    <p className="whitespace-nowrap text-sm text-cocoa/70">{p.price == null ? 'Price TBC' : formatPrice(p.price * items[p.id])}</p>
+                    <p className="whitespace-nowrap text-sm text-cocoa/70">{formatPrice(p.price == null ? null : p.price * items[p.id])}</p>
                   </div>
-                  <p className="mt-1 text-xs uppercase tracking-[.16em] text-cocoa/50">{p.size ?? 'Weight TBC'} · placeholder product</p>
+                  <p className="mt-1 text-xs uppercase tracking-[.16em] text-cocoa/50">{p.size}</p>
                   <div className="mt-3 flex items-center justify-between">
                     <div className="flex items-center border border-cocoa/20">
                       <button type="button" aria-label={`Decrease quantity of ${p.name}`} onClick={() => setQty(p.id, items[p.id] - 1)} className="h-9 w-9 hover:bg-cocoa/5">−</button>
@@ -70,8 +73,12 @@ export default function CartDrawer() {
             <span className="text-xs uppercase tracking-[.2em]">Subtotal</span>
             <span className="font-display text-lg">{lines.length === 0 ? '—' : sub == null ? TBC : formatPrice(sub)}</span>
           </div>
-          <button type="button" disabled className="mt-4 w-full cursor-not-allowed rounded-full bg-cocoa/15 py-3 text-xs uppercase tracking-[.22em] text-cocoa/50">Checkout — coming soon</button>
-          <p className="mt-3 text-xs leading-relaxed text-cocoa/55">Placeholder products. Prices, weights and checkout are not available yet.</p>
+          {lines.length > 0 && orderHref ? (
+            <a href={orderHref} className="btn mt-4 block w-full text-center"><span>Send order request</span></a>
+          ) : (
+            <button type="button" disabled className="mt-4 w-full cursor-not-allowed rounded-full bg-cocoa/15 py-3 text-xs uppercase tracking-[.22em] text-cocoa/50">Send order request</button>
+          )}
+          <p className="mt-3 text-xs leading-relaxed text-cocoa/55">Your order opens as an email to us. We reply to confirm delivery and payment.</p>
         </div>
       </aside>
     </div>

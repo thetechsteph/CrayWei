@@ -27,7 +27,6 @@ export function HeroUI() {
     <div className="hero-ui pointer-events-none absolute inset-x-0 bottom-0 z-40 flex items-end justify-between px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:px-10">
       <div className="fade-in max-w-[15rem] text-shell">
         <p className="text-[.68rem] uppercase tracking-[.24em] text-gold">01 / 05 — The Entrance</p>
-        {/* PLACEHOLDER COPY — to be replaced with approved brand copy */}
         <p className="mt-3 font-display text-lg italic leading-snug md:text-xl">Crayfish, from the water to the table.</p>
       </div>
       <div className="cue fade-in flex flex-col items-center gap-3 text-[.62rem] uppercase tracking-[.3em] text-shell/80">

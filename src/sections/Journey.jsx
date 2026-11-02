@@ -222,7 +222,7 @@ export default function Journey() {
       <div className="sr-only">
         {MOMENTS.map((m) => <h2 key={m.id}>{m.plain}</h2>)}
         <h2>{INGREDIENT.plain}</h2>
-        <h2>The Collection: {PRODUCTS.map((p) => p.name).join(', ')} (placeholder products)</h2>
+        <h2>The Collection: {PRODUCTS.map((p) => p.name).join(', ')}</h2>
         <h2>{INVITE.plain}</h2>
       </div>
 

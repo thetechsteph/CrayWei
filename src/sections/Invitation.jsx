@@ -5,7 +5,7 @@ import { jump } from '../lib/nav';
 import { Headline } from './Discovery';
 import { Tag, altOf, useImages } from './Ingredient';
 
-// Scene 05 · The Invitation — copy as supplied; no claims added.
+// Scene 05 · The Invitation.
 export const INVITE = {
   label: '05 / 05 — The Invitation',
   plain: 'Bring the flavour home.',
@@ -23,7 +23,7 @@ const PHOTOS = ['egusi', 'jollof', 'okra', 'afang'];
 function Ctas({ cls = '' }) {
   return (
     <div className={`iv-ctas ${cls}`}>
-      {/* Back to Scene 04: lands on the full collection (every product, with Add to cart). Checkout does not exist yet. */}
+      {/* Back to Scene 04: lands on the full collection (every product, with Add to cart). Orders go out as an email request from the cart. */}
       <a href="#products" onClick={jump(UNITS.overview)} className="btn btn-gold iv-cta"><span>{INVITE.primary} <span aria-hidden="true">→</span></span></a>
       <a href={BRAND.storyTarget} onClick={jump(0)} className="link-under iv-cta">{INVITE.secondary}</a>
     </div>
